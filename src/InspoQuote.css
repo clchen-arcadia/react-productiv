@@ -1,0 +1,9 @@
+.InspoQuote-text {
+    display: flex;
+    justify-content: end;
+    /* float: right; */
+}
+
+.InspoQuote-button {
+    float: right;
+}

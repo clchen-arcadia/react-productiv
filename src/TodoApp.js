@@ -12,6 +12,7 @@ import TodoForm from "./TodoForm.js";
  *
  * State:
  * - todos: array of [ todo, ... ]
+ * - inspoQuote
  *
  * App -> TodoApp -> { TodoForm, EditableTodoList, TopTodo }
  */

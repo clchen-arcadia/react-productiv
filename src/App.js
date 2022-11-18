@@ -1,21 +1,41 @@
-import React from "react";
+import React, {useState} from "react";
 import TodoApp from "./TodoApp";
 import Footer from "./Footer";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
+import InspoQuote from "./InspoQuote.js";
+import axios from 'axios'
+
+const URL_FOR_RANDOM_INSPO = "https://inspo-quotes-api.herokuapp.com/quotes/random";
 
 /** Site application.
  *
- * App -> TodoApp, Footer
+ *  State
+ *  - InspoQuote
+ *
+ * App -> TodoApp, Footer, InspoQuote
  **/
 
 function App() {
+  const [inspoQuote, setInspoQuote] = useState("");
+
+  async function handleInspoBtn() {
+    const newQuoteAPI = await axios({
+      url: URL_FOR_RANDOM_INSPO,
+      method: "GET",
+    });
+    console.log("test, newQuoteAPI is", newQuoteAPI);
+    const newQuote = `${newQuoteAPI.data.quote.text} -${newQuoteAPI.data.quote.author}`;
+    setInspoQuote(() => newQuote);
+  }
+
   return (
       <main className="App">
         <header className="container-fluid pt-4 pb-1">
           <div className="container">
             <h1>Prøductïv</h1>
             <p className="lead">The best name in todo list management.</p>
+            <InspoQuote message={inspoQuote} handleClick={handleInspoBtn} />
           </div>
         </header>
 
