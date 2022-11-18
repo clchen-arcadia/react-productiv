@@ -16,4 +16,14 @@ it("contains expected term", function () {
     />
   );
   expect(result.queryByText("TEST")).toBeInTheDocument();
+  expect(result.queryByText("Testing")).toBeInTheDocument();
+});
+
+it("matches snapshot", function () {
+  const { container } = render(
+    <Todo
+      todo={{ id: 1, title: "TEST", description: "Testing", priority: 1 }}
+    />
+  );
+  expect(container).toMatchSnapshot();
 });
