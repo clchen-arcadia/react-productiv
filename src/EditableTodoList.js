@@ -13,10 +13,11 @@ import EditableTodo from "./EditableTodo";
 
 function EditableTodoList({ todos, update, remove }) {
   console.log("EditableTodoList rendered with props", todos, update, remove);
+  
   return (
-    <div>
+    <div className="EditableTodoList">
       {todos.map((t) => (
-        <EditableTodo todo={t.todo} update={t.update} remove={t.remove} />
+        <EditableTodo todo={t} update={update} remove={remove} key={t.id}/>
       ))}
     </div>
   );

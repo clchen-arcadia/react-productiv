@@ -6,14 +6,18 @@ import React, { useState } from "react";
  * - initialFormData
  * - handleSave: function to call in parent.
  *
+ * States:
+ * - formData: object like {title, description, priority}
+ *
  * { TodoApp, EditableTodo } -> TodoForm
  */
 
 function TodoForm({
-  initialFormData = { title: "", description: "", priority: "" },
+  initialFormData = { title: "", description: "", priority: 1 },
   handleSave,
 }) {
   console.log("TodoForm rendered with props", initialFormData, handleSave);
+
   const [formData, setFormData] = useState(initialFormData);
 
   /** Update form input. */

@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 
 import TopTodo from "./TopTodo";
 import EditableTodoList from "./EditableTodoList";
+import TodoForm from "./TodoForm.js";
 
 /** App for managing a todo list.
  *
@@ -12,31 +13,32 @@ import EditableTodoList from "./EditableTodoList";
  * State:
  * - todos: array of [ todo, ... ]
  *
- * App -> TodoApp -> { TodoForm, EditableTodoList }
+ * App -> TodoApp -> { TodoForm, EditableTodoList, TopTodo }
  */
 
-function TodoApp({ initialTodos = [], test = "This is a test" }) {
-  console.log("TODO App with props", initialTodos, test);
+function TodoApp({ initialTodos = [] }) {
+  console.log("TodoApp renders with props:", initialTodos);
+
   const [todos, setTodos] = useState(initialTodos);
+
+  console.log("TodoApp rendered with states:", todos);
 
   /** add a new todo to list */
   function create(newTodo) {
-    // const newTodos = [...todos, newTodo];
-    // setTodos(() => newTodos);
-    setTodos(() => [...todos, newTodo]);
+    setTodos(() => [...todos, {...newTodo, id: uuid()}]);
   }
 
   /** update a todo with updatedTodo */
   function update(updatedTodo) {
     const newTodos = todos.map((t) =>
-      t.id === updatedTodo.id ? updatedTodo : t
+      t.id === updatedTodo.id ? {...t, ...updatedTodo} : t
     );
     setTodos(() => newTodos);
   }
 
   /** delete a todo by id */
   function remove(id) {
-    const newTodos = todos.filter((t) => t.id === id);
+    const newTodos = todos.filter((t) => t.id !== id);
     setTodos(() => newTodos);
   }
 
@@ -44,19 +46,27 @@ function TodoApp({ initialTodos = [], test = "This is a test" }) {
     <main className="TodoApp">
       <div className="row">
         <div className="col-md-6">
-          <EditableTodoList /> OR
-          <span className="text-muted">You have no todos.</span>
+          {
+            todos.length > 0
+            ? <EditableTodoList
+                todos={todos}
+                update={update}
+                remove={remove}
+              />
+            : <span className="text-muted">You have no todos.</span>
+          }
         </div>
 
         <div className="col-md-6">
-          (if no top todo, omit this whole section)
+          { todos.length > 0 &&
           <section className="mb-4">
             <h3>Top Todo</h3>
             <TopTodo todos={todos} />
           </section>
+          }
           <section>
             <h3 className="mb-3">Add Nü</h3>
-            FIXME
+            <TodoForm handleSave={create} />
           </section>
         </div>
       </div>
